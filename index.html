@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="@AzamCyberSec">
+    <title>Pro Roadmap - Premium Dark UI</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css">
+    
+    <script type="text/javascript" src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+
+    <input type="file" id="imageUpload" accept="image/*" style="display: none;">
+
+    <div class="top-left-tools">
+        <button class="btn glass-btn icon-btn" onclick="undo()" id="undoBtn" title="Undo (Ctrl+Z)" disabled>
+            <span class="icon">↩️</span>
+        </button>
+        <button class="btn glass-btn icon-btn" onclick="redo()" id="redoBtn" title="Redo (Ctrl+Y)" disabled>
+            <span class="icon">↪️</span>
+        </button>
+    </div>
+
+    <div class="floating-tools">
+        <button class="btn glass-btn clear-btn" onclick="clearAllData()" title="Clear all data">
+            <span class="icon">🗑️</span> Clear
+        </button>
+        <button class="btn glass-btn" onclick="forceSave()" id="saveBtn" title="Save">
+            <span class="icon">💾</span> Save
+        </button>
+        <button class="btn glass-btn" onclick="exportToPNG()" title="Export as PNG">
+            <span class="icon">🖼️</span> PNG
+        </button>
+        <button class="btn glass-btn pdf-btn" onclick="exportToPDF()" title="Export as PDF">
+            <span class="icon">📄</span> PDF
+        </button>
+    </div>
+
+    <div class="main-content">
+        <div id="mynetwork"></div>
+
+        <div id="contextMenu" class="context-menu glass-panel" style="display: none;">
+            <div id="nodeMenuItems">
+                <div class="menu-item" id="menuAddText">
+                    <span class="icon">📝</span> Add Text
+                </div>
+                <div class="menu-item" id="menuAddImage">
+                    <span class="icon">🖼️</span> Add Image
+                </div>
+                <div class="menu-item" id="menuEdit">
+                    <span class="icon">✏️</span> Edit
+                </div>
+                <div class="menu-item" id="menuUploadImage" style="display: none;">
+                    <span class="icon">🖼️</span> Upload Image
+                </div>
+                <div class="menu-item" id="menuColor">
+                    <span class="icon">🎨</span> Color
+                </div>
+                <div class="menu-item" id="menuSize">
+                    <span class="icon">🔍</span> Size
+                </div>
+            </div>
+            <div class="menu-item delete" id="menuDelete">
+                <span class="icon">🗑</span> Delete
+            </div>
+        </div>
+        
+        <div id="sizePanel" class="glass-panel" style="display: none; position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); z-index: 101; padding: 15px 25px; border-radius: 16px; width: 300px; animation: slideUp 0.3s ease;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                <span style="font-size: 14px; font-weight: 600; color: var(--text-color);">Adjust Size</span>
+                <span id="closeSizePanel" style="cursor: pointer; font-size: 18px; color: var(--text-muted);">&times;</span>
+            </div>
+            <input type="range" id="nodeSizeInput" min="10" max="100" value="18" class="custom-range">
+            <div id="nodeSizeDisplay" style="text-align: center; margin-top: 10px; font-weight: 600; font-size: 16px; color: var(--primary);">18px</div>
+        </div>
+    </div>
+
+    <div id="editModalOverlay" class="modal-overlay" style="display: none;">
+        <div class="modal glass-panel">
+            <h3>Edit Block Text</h3>
+            <textarea id="nodeTextInput" rows="3" placeholder="Enter text..."></textarea>
+            <div class="modal-actions">
+                <button class="btn modal-btn-cancel" onclick="closeEditModal()">Cancel</button>
+                <button class="btn btn-primary modal-btn-save" onclick="saveNodeText()">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <input type="color" id="colorPicker" style="display: none;">
+
+    <a href="https://github.com/AzamCyberSec" target="_blank" class="author-watermark glass-panel">
+        <span class="icon">💻</span> Crafted by @AzamCyberSec
+    </a>
+
+    <script src="script.js"></script>
+</body>
+</html>
